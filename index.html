@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>DOM Query</title>
+    </head>
+    <body>
+
+    Open your console
+
+    <div id="list-container">
+        <ul class="list">
+            <li class="list-item"></li>
+            <li class="list-item"></li>
+            <li class="list-item"></li>
+            <li class="list-item"></li>
+            <li class="list-item"></li>
+        </ul>
+    </div>
+
+    <div id="list-container2">
+        <ul class="list2">
+            <li class="list-item2"></li>
+            <li class="list-item2"></li>
+            <li class="list-item2"></li>
+            <li class="list-item2"></li>
+            <li class="list-item2"></li>
+        </ul>
+    </div>
+
+    <div id="list-container3">
+        <ul class="list3">
+            <li class="list-item3"></li>
+            <li class="list-item3"></li>
+            <li class="list-item3"></li>
+            <li class="list-item3"></li>
+            <li class="list-item3"></li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+
+        // More dollar-signs more power?
+        window.$$ = (selectorString) => () => document.querySelectorAll(selectorString);
+
+        const queryString = '.list-item';
+        const queryString2 = '.list-item2';
+        const queryString3 = '.list-item3';
+
+        // 1 query test
+        console.time('1 query test: with caching');
+            $$(queryString);
+            $$(queryString);
+        console.timeEnd('1 query test: with caching');
+
+        console.time('1 query test: without caching');
+            document.querySelectorAll(queryString);
+            document.querySelectorAll(queryString);
+        console.timeEnd('1 query test: without caching');
+
+
+        // 10 query test
+        console.time('10 query test: with caching');
+            $$(queryString2);
+            for (let i = 0; i < 10; i++) {
+                $$(queryString2);
+            }
+        console.timeEnd('10 query test: with caching');
+
+        console.time('10 query test: without caching');
+            document.querySelectorAll(queryString2);
+            for (let i = 0; i < 10; i++) {
+                document.querySelectorAll(queryString2);
+            }
+        console.timeEnd('10 query test: without caching');
+
+
+        // 10,000 query test
+        console.time('10,000 query test: with caching');
+            $$(queryString3);
+            for (let i = 0; i < 10000; i++) {
+                $$(queryString3);
+            }
+        console.timeEnd('10,000 query test: with caching');
+
+        console.time('10,000 query test: without caching');
+            document.querySelectorAll(queryString3);
+            for (let i = 0; i < 10000; i++) {
+                document.querySelectorAll(queryString3);
+            }
+        console.timeEnd('10,000 query test: without caching');
+
+    </script>
+
+    </body>
+</html>
